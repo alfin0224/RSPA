@@ -1,0 +1,27 @@
+@media (min-width: 992px){
+	.modal-dialog{
+		max-width: 700px;
+	}
+}
+
+.profile-pic {
+	position: relative;
+	display: inline-block;
+}
+
+.profile-pic:hover .profile-pic-edit {
+	display: block;
+}
+
+.profile-pic-edit {
+	padding-top: 7px;	
+	padding-right: 7px;
+	position: absolute;
+	right: 0;
+	top: 0;
+	display: none;
+}
+
+.profile-pic-edit a {
+	color: #000;
+}
