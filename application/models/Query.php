@@ -10,6 +10,7 @@ class Query extends CI_Model{
 	function insert_data($table, $data)
 	{
 		$this->db->insert($table, $data);
+		return $this->db->insert_id();
 	}
 	function hapus_data($table, $where)
 	{
@@ -21,6 +22,16 @@ class Query extends CI_Model{
 	{
 		$this->db->where($where);
 		$this->db->update($table, $data);
+	}
+		function get_order_by($select, $table, $where, $kolom, $orderby, $nilai)
+	{
+		$this->db->select($select);
+		$this->db->from($table);
+		$this->db->where($where);
+		$this->db->order_by($kolom, $orderby);
+		$this->db->limit($nilai);
+		$query = $this->db->get();
+		return $query->result();
 	}
 
 	function satutable($select, $table1, $where)
@@ -40,7 +51,6 @@ class Query extends CI_Model{
 		$query = $this->db->get();
 		return $query->result();
 	}
-
 	function notif_pendaftar()
 	{
 		$this->db->select('nama, jenis_penyakit');
@@ -70,8 +80,6 @@ class Query extends CI_Model{
 		$query = $this->db->get();
 		return $query->result();
 	}
-
-
 	function count_distinct_id_kab()
 	{
 		$this->db->select('COUNT(DISTINCT(id_kab)) as total_kab');
@@ -109,7 +117,6 @@ class Query extends CI_Model{
 		$query = $this->db->get();
 		return $query->result();
 	}
-
 	function tigatable_group_by($select, $table1, $table2, $table3, $join1, $join2, $where, $group){
 		$this->db->select($select);    
 		$this->db->from($table1);
@@ -120,8 +127,6 @@ class Query extends CI_Model{
 		$query = $this->db->get();
 		return $query->result();
 	}
-
-
 	function limatable($select, $table1, $table2, $table3, $table4, $table5,  $join1, $join2, $join3, $join4, $where){
 		$this->db->select($select);    
 		$this->db->from($table1);
@@ -147,18 +152,7 @@ class Query extends CI_Model{
 		$query = $this->db->get();
 		return $query->result();
 	}
-
-	function get_order_by($select, $table, $where, $kolom, $orderby, $nilai)
-	{
-		$this->db->select($select);
-		$this->db->from($table);
-		$this->db->where($where);
-		$this->db->order_by($kolom, $orderby);
-		$this->db->limit($nilai);
-		$query = $this->db->get();
-		return $query->result();
-	}
-
+	
 	function get_order_group_by($select, $table, $where, $group, $kolom, $orderby, $nilai)
 	{
 		$this->db->select($select);
@@ -170,7 +164,6 @@ class Query extends CI_Model{
 		$query = $this->db->get();
 		return $query->result();
 	}
-
 	function get_group_by($select, $table, $where, $group)
 	{
 		$this->db->select($select);
@@ -180,7 +173,6 @@ class Query extends CI_Model{
 		$query = $this->db->get();
 		return $query->result();
 	}
-
 	function duatable_limit($select, $table1, $table2, $join, $where, $nilai)
 	{
 		$this->db->select($select);
@@ -201,7 +193,6 @@ class Query extends CI_Model{
 		$query = $this->db->get();
 		return $query->result();
 	}
-
 	function duatable_group_by($select, $table1, $table2, $join, $where, $group)
 	{
 		$this->db->select($select);
@@ -223,6 +214,5 @@ class Query extends CI_Model{
 		$query = $this->db->get();
 		return $query->result();
 	}
-
 
 }

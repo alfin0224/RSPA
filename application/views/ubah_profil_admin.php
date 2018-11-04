@@ -70,7 +70,7 @@
           <?php 
           foreach($profil_admin as $b){
             ?>
-            <form id="form-ubah-profil-admin" class="form-horizontal" action="<?php echo base_url('user_adm/simpan_ubah_profil_admin')?>" method="post" enctype="multipart/form-data" role="form">
+            <form id="form-ubah-profil-admin" class="form-horizontal" action="<?php echo site_url('user_adm/simpan_ubah_profil_admin')?>" method="post" enctype="multipart/form-data" role="form">
               <input type="hidden" name="no_ktp" value="<?php echo $this->uri->segment(3); ?>">
               <!--
               <div class="form-group row">
@@ -97,7 +97,7 @@
             <div class="form-group row">
               <div class="col-xs-12 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">  
                 <div class="profile-pic">
-                  <img src="<?= base_url() ?>assets/img/<?= $b->foto_profil ?>" id="img-profile" width="200">
+                  <img src="<?= base_url() ?>assets/photos/<?= $b->foto_profil ?>" id="img-profile" width="200">
                   <div class="profile-pic-edit"><a href="#" onclick="clickToBrowseFile()"><i class="fa fa-pencil fa-lg"></i></a></div>
                 </div>
                 <input type="file" name="img_profil_admin" /> 
@@ -206,6 +206,21 @@
   }
 
   $(function () {
+    
+    <?php
+
+    if (!is_null($this->session->flashdata('message'))) {
+      $message = $this->session->flashdata('message');
+      echo 'swal({
+      title:"Alert",
+        text: "'.$message['text'].'",
+        timer: 1500,
+        showConfirmButton: true,
+        type: "'.$message['type'].'"
+      });';
+}
+    
+    ?>
 
     $('#datetimepicker').datetimepicker({
       format: 'DD-MM-YYYY'

@@ -83,7 +83,7 @@ class User_adm extends CI_Controller {
 		#hapus data pasien
 		$where = array(
 			'id_pasien' => $id
-			);
+		);
 		$data['minggu_ke_sekian']= $this->Query->get_order_by('minggu_ke, tgl_berobat','jadwal_berobat_pasien', $where,'minggu_ke', 'DESC', '1');
 		$data['jadwal_berobat_pasien'] = $this->Query->duatable('*', 'jadwal_berobat_pasien', 'biodata_pasien', 'jadwal_berobat_pasien.id_pasien=biodata_pasien.id', $where);
 		$this->load->view('jadwal_berobat_pasien', $data);
@@ -112,7 +112,7 @@ class User_adm extends CI_Controller {
 		$m = $today->diff($tanggal)->m;
 		$where = array(
 			'id' => $id
-			);
+		);
 		$isi_update_pasien = array(
 			'nama' 	            =>	$this->input->post('nama_pasien'),
 			'tgl_lahir'         =>  $tgl_lahir,
@@ -168,11 +168,11 @@ class User_adm extends CI_Controller {
 			'no_kartu'         	=>	$this->input->post('no_kartu'),
 			'status'         	=>	'diterima',
 			'tgl_daftar'        =>	$tgl_daftar
-			);
+		);
 		$this->Query->insert_data('biodata_pasien', $isi_data_pasien);
 		$where_biodata = array(
 			'no_kartu' => $this->input->post('no_kartu')
-			);
+		);
 		$data['biodata_pasien'] = $this->Query->get_data('biodata_pasien', $where_biodata)->result();
 		foreach ($data['biodata_pasien'] as $b) {
 			$id = $b->id;
@@ -181,23 +181,23 @@ class User_adm extends CI_Controller {
 			'id_pasien' => $id,
 			'tgl_masuk' => $tgl_masuk,
 			'id_kamar' => $id_kamar
-			);
+		);
 		$this->Query->insert_data('jadwal_inap_pasien', $jadwal_inap);
 		$where_kamar = array(
 			'id_kamar' => $id_kamar
-			);
+		);
 		$data['kamar'] = $this->Query->get_data('kamar', $where_kamar)->result();
 		foreach ($data['kamar'] as $k) {
 			$sisa_kuota = $k->sisa_kuota_kamar;
 		}
 		$isi_update_kamar = array(
 			'sisa_kuota_kamar' 	            =>	$sisa_kuota-1,
-			);
+		);
 		$this->Query->update_data('kamar', $where_kamar, $isi_update_kamar);
 		$jadwal_berobat = array(
 			'minggu_ke' => 1,
 			'id_pasien' => $id
-			);
+		);
 		$this->Query->insert_data('jadwal_berobat_pasien', $jadwal_berobat);
 		redirect(base_url('user_adm/pasien'));
 	}
@@ -205,7 +205,7 @@ class User_adm extends CI_Controller {
 		$id = $this->uri->segment(3);
 		$where = array(
 			'id_pasien' => $id
-			);
+		);
 		$data['kamar'] = $this->Query->duatable('*', 'kamar', 'jadwal_inap_pasien', 'kamar.id_kamar=jadwal_inap_pasien.id_kamar', $where);
 		foreach ($data['kamar'] as $k) {
 			$sisa_kuota = $k->sisa_kuota_kamar;
@@ -213,14 +213,14 @@ class User_adm extends CI_Controller {
 		}
 		$where_kamar = array(
 			'id_kamar' => $id_kamar
-			);
+		);
 		$isi_update_kamar = array(
 			'sisa_kuota_kamar' 	 =>	$sisa_kuota+1,
-			);
+		);
 		$this->Query->update_data('kamar', $where_kamar, $isi_update_kamar);
 		$where = array(
 			'id' => $id
-			);
+		);
 		$this->Query->hapus_data('biodata_pasien', $where);
 		redirect(base_url('user_adm/pasien'));
 	}
@@ -228,7 +228,7 @@ class User_adm extends CI_Controller {
 		$id = $this->uri->segment(3);
 		$where = array(
 			'id' => $id
-			);
+		);
 		$this->Query->hapus_data('biodata_pasien', $where);
 		redirect(base_url('user_adm/pasien'));
 	}
@@ -236,7 +236,7 @@ class User_adm extends CI_Controller {
 		$id = $this->uri->segment(3);
 		$where = array(
 			'id' => $id
-			);
+		);
 		$this->Query->hapus_data('biodata_pasien', $where);
 		redirect(base_url('user_adm/pasien_pendaftar'));
 	}
@@ -284,7 +284,7 @@ class User_adm extends CI_Controller {
 		$data['pasien_pendaftar'] = $this->Query->notif_pendaftar();
 		$where = array(
 			'tgl_keluar' => NULL
-			);
+		);
 		$data['jadwal_inap'] = $this->Query->tigatable('*', 'jadwal_inap_pasien', 'kamar', 'biodata_pasien', 'jadwal_inap_pasien.id_kamar=kamar.id_kamar', 'jadwal_inap_pasien.id_pasien=biodata_pasien.id', $where);
 		$this->load->view('jadwal_inap_pasien', $data);
 	}
@@ -320,10 +320,10 @@ class User_adm extends CI_Controller {
 		$id_kamar = $this->input->post('kamar_tersedia');
 		$where = array(
 			'id' => $id
-			);
+		);
 		$isi_update_pasien = array(
 			'status' 	            =>	'diterima'
-			);
+		);
 		date_default_timezone_set("Asia/Jakarta");
 		$tgl_masuk = date('d-m-Y');
 		$terima_pasien = $this->Query->update_data('biodata_pasien', $where, $isi_update_pasien);
@@ -331,23 +331,23 @@ class User_adm extends CI_Controller {
 			'id_pasien' => $id,
 			'tgl_masuk' => $tgl_masuk,
 			'id_kamar' => $id_kamar
-			);
+		);
 		$this->Query->insert_data('jadwal_inap_pasien', $jadwal_inap);
 		$where_kamar = array(
 			'id_kamar' => $id_kamar
-			);
+		);
 		$data['kamar'] = $this->Query->get_data('kamar', $where_kamar)->result();
 		foreach ($data['kamar'] as $k) {
 			$sisa_kuota = $k->sisa_kuota_kamar;
 		}
 		$isi_update_kamar = array(
 			'sisa_kuota_kamar' 	            =>	$sisa_kuota-1,
-			);
+		);
 		$this->Query->update_data('kamar', $where_kamar, $isi_update_kamar);
 		$jadwal_berobat = array(
 			'minggu_ke' => 1,
 			'id_pasien' => $id
-			);
+		);
 		$this->Query->insert_data('jadwal_berobat_pasien', $jadwal_berobat);
 		redirect(base_url('user_adm/pasien_pendaftar'));
 
@@ -357,10 +357,10 @@ class User_adm extends CI_Controller {
 		// $id = $this->uri->segment(3);
 		$where = array(
 			'id' => $id
-			);
+		);
 		$isi_update_pasien = array(
 			'status' => 'ditolak'
-			);
+		);
 		$tolak_pasien = $this->Query->update_data('biodata_pasien', $where, $isi_update_pasien);
 		// redirect(base_url('user_adm/pasien_pendaftar'));
 		redirect(base_url('user_adm/daftar_pasien_ditolak/'));
@@ -389,7 +389,7 @@ class User_adm extends CI_Controller {
 		$id = $this->uri->segment(3);
 		$where = array(
 			'id_pasien' => $id
-			);
+		);
 		$data['kamar'] = $this->Query->duatable('*', 'kamar', 'jadwal_inap_pasien', 'kamar.id_kamar=jadwal_inap_pasien.id_kamar', $where);
 		foreach ($data['kamar'] as $k) {
 			$sisa_kuota = $k->sisa_kuota_kamar;
@@ -397,10 +397,10 @@ class User_adm extends CI_Controller {
 		}
 		$where_kamar = array(
 			'id_kamar' => $id_kamar
-			);
+		);
 		$isi_update_kamar = array(
 			'sisa_kuota_kamar' 	            =>	$sisa_kuota+1,
-			);
+		);
 		$this->Query->update_data('kamar', $where_kamar, $isi_update_kamar);
 		
 		date_default_timezone_set("Asia/Jakarta");
@@ -408,14 +408,14 @@ class User_adm extends CI_Controller {
 		$isi_update_tgl = array(
 			'tgl_keluar' => $tgl_keluar,
 			'id_kamar' => NULL
-			);
+		);
 		$tgl_pasien_keluar = $this->Query->update_data('jadwal_inap_pasien', $where, $isi_update_tgl);
 		$isi_update_status = array(
 			'status' => 'keluar'
-			);
+		);
 		$where_status = array(
 			'id' => $id
-			);
+		);
 		$ubah_status = $this->Query->update_data('biodata_pasien', $where_status, $isi_update_status);
 
 		redirect(base_url('user_adm/jadwal_inap_pasien'));
@@ -442,31 +442,31 @@ class User_adm extends CI_Controller {
 		$id_kamar = $this->input->post('kamar_tersedia');
 		$isi_update_status = array(
 			'status' => 'diterima'
-			);
+		);
 		$where_status = array(
 			'id' => $id_profil
-			);
+		);
 		$ubah_status = $this->Query->update_data('biodata_pasien', $where_status, $isi_update_status);
 		$where_kamar = array(
 			'id_kamar' => $id_kamar
-			);
+		);
 		$data['kamar'] = $this->Query->get_data('kamar', $where_kamar)->result();
 		foreach ($data['kamar'] as $k) {
 			$sisa_kuota = $k->sisa_kuota_kamar;
 		}
 		$isi_update_kamar = array(
 			'sisa_kuota_kamar' 	            =>	$sisa_kuota-1,
-			);
+		);
 		$this->Query->update_data('kamar', $where_kamar, $isi_update_kamar);
 		$jadwal_berobat = array(
 			'minggu_ke' => 1,
 			'id_pasien' => $id
-			);
+		);
 		$pasien_inap_lagi = array(
 			'id_pasien' => $id_profil,
 			'tgl_masuk' => $tgl_masuk,
 			'id_kamar' => $id_kamar
-			);
+		);
 		$this->Query->insert_data('jadwal_inap_pasien', $pasien_inap_lagi);
 		redirect(base_url('user_adm/jadwal_inap_pasien/'));
 	}
@@ -478,7 +478,7 @@ class User_adm extends CI_Controller {
 		$tanggal = new DateTime(trim($tgl_berobat));
 		$where = array(
 			'id_pasien' => $this->input->post('id_pasien')
-			);
+		);
 		$data['tgl_sebelum'] = $this->Query->get_order_by('tgl_berobat','jadwal_berobat_pasien', $where,'id_jadwal', 'DESC', '1');
 		
 		// var_dump($data['tgl_sebelum']);exit(0);
@@ -503,7 +503,7 @@ class User_adm extends CI_Controller {
 			'status_berobat' => $status_berobat,
 			'alasan_terlambat' => $alasan_terlambat,
 			'kestabilan_kondisi' => $this->input->post('kestabilan_kondisi')
-			);
+		);
 		$id_pasien = $this->input->post('id_pasien');
 		$this->Query->insert_data('jadwal_berobat_pasien', $isi_data_jadwal);
 		redirect(base_url('user_adm/jadwal_berobat_pasien/'.$id_pasien));
@@ -518,12 +518,12 @@ class User_adm extends CI_Controller {
 		$alasan_terlambat = '-';
 		$where = array(
 			'id_pasien' => $this->input->post('id_pasien')
-			);
+		);
 		$isi_data_pasien = array(
 			'tgl_berobat' => $tgl_berobat,
 			'status_berobat' => $status_berobat,
 			'kestabilan_kondisi' => $this->input->post('kestabilan_kondisi')
-			);
+		);
 		$id_pasien = $this->input->post('id_pasien');
 		$update_tgl_awal = $this->Query->update_data('jadwal_berobat_pasien', $where, $isi_data_pasien);
 		redirect(base_url('user_adm/jadwal_berobat_pasien/'.$id_pasien));
@@ -545,14 +545,14 @@ class User_adm extends CI_Controller {
 		$alasan_ditolak = $this->input->post('alasan');
 		$where = array(
 			'id_pasien' => $id
-			);
+		);
 
 		$i = 0;
 		foreach ($alasan_ditolak as $alasan) {
 			$isi_alasan = array(
 				'alasan' => $alasan_ditolak[$i],
 				'id_pasien' => $id
-				);
+			);
 			$this->Query->insert_data('alasan_ditolak', $isi_alasan);
 			$i++;
 		}
@@ -569,10 +569,10 @@ class User_adm extends CI_Controller {
 		// var_dump($alasan_terlambat);exit(0);
 		$where = array(
 			'id_jadwal' => $id_jadwal
-			);
+		);
 		$isi_alasan = array(
 			'alasan_terlambat' => $alasan_terlambat
-			);
+		);
 		$update_alasan_terlambat = $this->Query->update_data('jadwal_berobat_pasien', $where, $isi_alasan);
 		redirect(base_url('user_adm/jadwal_berobat_pasien/'.$id));
 	}
@@ -620,7 +620,7 @@ class User_adm extends CI_Controller {
 		$isi_data_aset = array(
 			'nama_aset' 	=>	$this->input->post('nama_aset'),
 			'jumlah' 	=>	$this->input->post('jml_aset')
-			);
+		);
 		$this->Query->insert_data('aset', $isi_data_aset);
 		redirect(base_url('user_adm/aset'));
 	}
@@ -635,7 +635,7 @@ class User_adm extends CI_Controller {
 			'nama_kamar' 	=>	$this->input->post('nama_kamar'),
 			'kuota_kamar' 	=>	$this->input->post('kuota'),
 			'sisa_kuota_kamar' 	=>	$this->input->post('kuota')
-			);
+		);
 		$this->Query->insert_data('kamar', $isi_data_kamar);
 		redirect(base_url('user_adm/kamar'));
 	}
@@ -643,7 +643,7 @@ class User_adm extends CI_Controller {
 		$id = $this->uri->segment(3);
 		$where = array(
 			'id_kamar' => $id
-			);
+		);
 		$this->Query->hapus_data('kamar', $where);
 		redirect(base_url('user_adm/kamar'));
 	}
@@ -653,7 +653,7 @@ class User_adm extends CI_Controller {
 		$data['pasien_pendaftar'] = $this->Query->notif_pendaftar();
 		$where = array(
 			'id_kamar' => $id
-			);
+		);
 		$data['kamar'] =  $this->Query->get_data('kamar', $where)->result();
 		$this->load->view('ubah_kamar', $data);
 	}
@@ -663,12 +663,12 @@ class User_adm extends CI_Controller {
 		$id = $this->input->post('id_kamar');
 		$where = array(
 			'id_kamar' => $id
-			);
+		);
 		$isi_data_kamar = array(
 			'nama_kamar' 	=>	$this->input->post('nama_kamar'),
 			'kuota_kamar' 	=>	$this->input->post('kuota'),
 			'sisa_kuota_kamar' => $this->input->post('kuota')
-			);
+		);
 		// var_dump($id); exit(o);
 		$this->Query->update_data('kamar', $where, $isi_data_kamar);
 		redirect(base_url('user_adm/kamar'));
@@ -680,7 +680,7 @@ class User_adm extends CI_Controller {
 		$data['pasien_pendaftar'] = $this->Query->notif_pendaftar();
 		$where = array(
 			'id' => $id
-			);
+		);
 		$data['kontak'] =  $this->Query->get_data('kontak_rspa', $where)->result();
 		$this->load->view('ubah_kontak', $data);
 	}
@@ -692,13 +692,13 @@ class User_adm extends CI_Controller {
 		$today = date('d-m-Y');
 		$where = array(
 			'id' => $id
-			);
+		);
 		$isi_data_kamar = array(
 			'no_telp' 	=>	$this->input->post('no_telp'),
 			'email' 	=>	$this->input->post('email'),
 			'alamat' => $this->input->post('alamat'),
 			'tgl_diubah' => $today
-			);
+		);
 		// var_dump($id); exit(o);
 		$this->Query->update_data('kontak_rspa', $where, $isi_data_kamar);
 		redirect(base_url('user_adm/kelola_kontak'));
@@ -718,7 +718,7 @@ class User_adm extends CI_Controller {
 			'harga' 	=>	$this->input->post('harga'),
 			'jumlah' 	=>	$this->input->post('jml_barang'),
 			'tgl_belanja' 	=>	$this->input->post('tgl_belanja'),
-			);
+		);
 		$this->Query->insert_data('rekap_belanja', $isi_data_rekap_belanja);
 		redirect(base_url('user_adm/rekap_belanja'));
 	}
@@ -727,7 +727,7 @@ class User_adm extends CI_Controller {
 		$id = $this->uri->segment(3);
 		$where = array(
 			'id_aset' => $id
-			);
+		);
 		$this->Query->hapus_data('aset', $where);
 		redirect(base_url('user_adm/aset'));
 	}
@@ -738,7 +738,7 @@ class User_adm extends CI_Controller {
 		$data['pasien_pendaftar'] = $this->Query->notif_pendaftar();
 		$where = array(
 			'id_belanja' => $id
-			);
+		);
 		$data['rekap_belanja'] =  $this->Query->get_data('rekap_belanja', $where)->result();
 		$this->load->view('ubah_rekap_belanja', $data);
 	}
@@ -748,14 +748,14 @@ class User_adm extends CI_Controller {
 		$id = $this->input->post('id_belanja');
 		$where = array(
 			'id_belanja' => $id
-			);
+		);
 		$isi_data_rekap_belanja = array(
 			'nama_barang' 	=>	$this->input->post('nama_barang'),
 			'jenis_barang' 	=>	$this->input->post('jenis_barang'),
 			'harga' 	=>	$this->input->post('harga'),
 			'jumlah' 	=>	$this->input->post('jml_barang'),
 			'tgl_belanja' 	=>	$this->input->post('tgl_belanja'),
-			);
+		);
 		// var_dump($id); exit(o);
 		$this->Query->update_data('rekap_belanja', $where, $isi_data_rekap_belanja);
 		redirect(base_url('user_adm/rekap_belanja'));
@@ -765,7 +765,7 @@ class User_adm extends CI_Controller {
 		$id = $this->uri->segment(3);
 		$where = array(
 			'id_belanja' => $id
-			);
+		);
 		$this->Query->hapus_data('rekap_belanja', $where);
 		redirect(base_url('user_adm/rekap_belanja'));
 	}
@@ -776,7 +776,7 @@ class User_adm extends CI_Controller {
 		$data['pasien_pendaftar'] = $this->Query->notif_pendaftar();
 		$where = array(
 			'id_aset' => $id
-			);
+		);
 		$data['aset'] =  $this->Query->get_data('aset', $where)->result();
 		$this->load->view('ubah_aset', $data);
 	}
@@ -786,11 +786,11 @@ class User_adm extends CI_Controller {
 		$id = $this->input->post('id_aset');
 		$where = array(
 			'id_aset' => $id
-			);
+		);
 		$isi_ubah_aset = array(
 			'nama_aset' 	=>	$this->input->post('nama_aset'),
 			'jumlah' 	=>	$this->input->post('jml_aset')
-			);
+		);
 		// var_dump($id); exit(o);
 		$this->Query->update_data('aset', $where, $isi_ubah_aset);
 		redirect(base_url('user_adm/aset'));
@@ -815,7 +815,7 @@ class User_adm extends CI_Controller {
 			'jam_berangkat' 	=>	$this->input->post('jam_berangkat'),
 			'lokasi_tujuan' 	=>	$this->input->post('lokasi'),
 			'biaya' 	=>	$this->input->post('biaya')
-			);
+		);
 		$where = array();
 		$this->Query->insert_data('rekap_operasional', $isi_data_rekap_operasional);
 		$data['rekap'] = $this->Query->get_order_by('id_rekap', 'rekap_operasional', $where, 'id_rekap', 'DESC', 1);
@@ -827,7 +827,7 @@ class User_adm extends CI_Controller {
 			$isi_data_pasien_diantar = array(
 				'id_rekap_operasional' => $id_rekap,
 				'id_pasien' 	=>	$id_pasien[$i]
-				);
+			);
 			
 			$this->Query->insert_data('pasien_diantar', $isi_data_pasien_diantar);
 			$i++;
@@ -840,7 +840,7 @@ class User_adm extends CI_Controller {
 		$id = $this->uri->segment(3);
 		$where = array(
 			'id_rekap' => $id
-			);
+		);
 		$this->Query->hapus_data('rekap_operasional', $where);
 		redirect(base_url('user_adm/rekap_operasional_ambulan'));
 	}
@@ -853,7 +853,7 @@ class User_adm extends CI_Controller {
 		$data['biodata_pasien'] = $this->Query->get_data('biodata_pasien', $where)->result();
 		$where_rekap = array(
 			'id_rekap' => $id
-			);
+		);
 		// $data['tampil_rekap'] = $this->Query->get_data('rekap_operasional', $where_rekap)->result();
 		// foreach ($data['tampil_rekap'] as $t) {
 		// 	$tgl_berangkat = $t->tgl_berangkat;
@@ -879,17 +879,17 @@ class User_adm extends CI_Controller {
 		$biaya = $this->input->post('biaya');
 		$where = array(
 			'id_rekap' => $id
-			);
+		);
 		$isi_ubah_rekap_operasional = array(
 			'tgl_berangkat' 	=>	$tgl_berangkat,
 			'jam_berangkat' 	=>	$jam_berangkat,
 			'lokasi_tujuan' 	=>	$lokasi,
 			'biaya' 			=>	$biaya
-			);
+		);
 		$this->Query->update_data('rekap_operasional', $where, $isi_ubah_rekap_operasional);
 		$where1 = array(
 			'id_rekap_operasional' => $id
-			);
+		);
 		$data['id_pasien_diantar'] = $this->Query->get_data('pasien_diantar', $where1)->result();
 		$id_pasien_diantar = array();
 		foreach ($data['id_pasien_diantar'] as $p) {
@@ -901,10 +901,10 @@ class User_adm extends CI_Controller {
 		foreach ($id_pasien as $id) {
 			$where_diantar= array(
 				'id' => $id_pasien_diantar[$i]
-				);
+			);
 			$isi_ubah_pasien_diantar = array(
 				'id_pasien' 		=>	$id_pasien[$i]
-				);
+			);
 			$this->Query->update_data('pasien_diantar', $where_diantar, $isi_ubah_pasien_diantar);
 			$i++;
 		}
@@ -956,79 +956,62 @@ class User_adm extends CI_Controller {
 		$no_ktp = $this->uri->segment(3);
 		$data['jml_notif'] = $this->Query->jml_notif();
 		$data['pasien_pendaftar'] = $this->Query->notif_pendaftar();
-		$where = array(
+		/*$where = array(
 			'no_ktp' => $no_ktp
-			);
+		);*/
+		$where = array(
+			'id' => $this->session->userdata('id')
+		);
 		$data['profil_admin'] =  $this->Query->get_data('user_admin', $where)->result();
 		$this->load->view('ubah_profil_admin', $data);
 	}	
 
 	public function simpan_ubah_profil_admin(){
-		$this->load->library('upload');
-		$no_ktp = $this->input->post('no_ktp');
-		// $img_profil_admin = $this->input->post('img_profil_admin');
+		$this->load->library('form_validation');
 
-		$config['upload_path']          = './assets/';
+		$config['upload_path']          = FCPATH.'assets/photos/';
 		$config['allowed_types']        = 'gif|jpg|png';
-		$config['max_size']             = 100;
-		$config['max_width']            = 1024;
-		$config['max_height']           = 768;
+		//$config['max_size']             = 100;
+		//$config['max_width']            = 1024;
+		//$config['max_height']           = 768;
 
 		$this->load->library('upload', $config);
-		// $this->upload->do_upload('img_profil_admin');
-		// var_dump($this->input->post('img_profil_admin')); exit(o);
 		if ( ! $this->upload->do_upload('img_profil_admin'))
 		{
-			// $error = array('error' => $this->upload->display_errors());
-
-			// $this->load->view('profil_admin', $error);
-			echo "<script> alert('Foto tidak masuk !!'); history.back(); </script>";
+			
+			$this->session->set_flashdata('message',array('type'=>'error','text'=>$this->upload->display_errors()));
+			
 		}
-		else
-		{
-			$data = array('upload_data' => $this->upload->data());
+		
+		$where = array(
+			'id' => $this->session->userdata('id')
+		);
+		$data_upload = $this->upload->data();
+		$foto_profil = $data_upload['file_name'];
+		$isi_ubah_rekap_operasional = array(
+			'nama' 	=>	$this->input->post('nama_admin'),
+			'username' 	=>	$this->input->post('username'),
+			'no_telp' 	=>	$this->input->post('no_telp'),
+			'jenis_kelamin' =>	$this->input->post('jenis_kelamin'),
+			'alamat' 	=>	$this->input->post('alamat')
+		);
 
-			$this->load->view('profil_admin', $data);
+		if (strlen($foto_profil) > 0) {
+			$isi_ubah_rekap_operasional['foto_profil'] = $foto_profil;
 		}
 
-		// $where = array(
-		// 	'no_ktp' => $no_ktp
-		// 	);
-		// $password_lama = $this->input->post('password_lama');
-		// $password_baru = $this->input->post('password_baru');
-		// $ulangi_password_baru = $this->input->post('ulangi_password_baru');
+		$this->form_validation->set_rules('password_lama','password lama','trim|required');
+		$this->form_validation->set_rules('password_baru','password baru','trim|required');
 
-		// if ($password_baru == NULL || $ulangi_password_baru == NULL) {
-		// 	$password_fix = $password_lama;
-		// 	$isi_ubah_rekap_operasional = array(
-		// 		'nama' 	=>	$this->input->post('nama_admin'),
-		// 		'username' 	=>	$this->input->post('username'),
-		// 		'password' 	=>	$password_fix,
-		// 		'no_telp' 	=>	$this->input->post('no_telp'),
-		// 		'jenis_kelamin' 	=>	$this->input->post('jenis_kelamin'),
-		// 		'alamat' 	=>	$this->input->post('alamat')
-		// 		);
-		// 	$this->Query->update_data('user_admin', $where, $isi_ubah_rekap_operasional);
-		// 	redirect(base_url('user_adm/profil_admin/'.$no_ktp ));
-		// } else {
-		// 	if ($password_baru === $ulangi_password_baru){
-		// 		$password_fix = $password_baru;
-		// 		$isi_ubah_rekap_operasional = array(
-		// 			'nama' 	=>	$this->input->post('nama_admin'),
-		// 			'username' 	=>	$this->input->post('username'),
-		// 			'password' 	=>	$password_fix,
-		// 			'no_telp' 	=>	$this->input->post('no_telp'),
-		// 			'jenis_kelamin' 	=>	$this->input->post('jenis_kelamin'),
-		// 			'alamat' 	=>	$this->input->post('alamat')
-		// 			);
-		// 		$this->Query->update_data('user_admin', $where, $isi_ubah_rekap_operasional);
-		// 		redirect(base_url('user_adm/profil_admin/'.$no_ktp ));
-		// 	} else {
-		// 		echo "<script> alert('Password baru yang anda masukkan tidak sama !!'); history.back(); </script>";
-		// 	}
-		// }
-	// var_dump($password_fix); exit(o);
-
+		if ($this->form_validation->run()) {
+			$this->form_validation->set_rules('ulangi_password_baru','Ulangi baru','trim|required|matches[password_baru]');
+			if ($this->form_validation) {
+				$isi_ubah_rekap_operasional['password'] = $this->input->post('ulangi_password_baru');
+			}
+		}
+		$this->Query->update_data('user_admin', $where, $isi_ubah_rekap_operasional);
+		$this->session->set_flashdata('message',array('type'=>'success','text'=>'Sukses! profile berhasil update'));
+		redirect('user_adm/ubah_profil_admin','refresh');
 	}
 	public function ubah_jadwal_berobat(){
 		$id = $this->uri->segment(3);
@@ -1036,7 +1019,7 @@ class User_adm extends CI_Controller {
 		$data['pasien_pendaftar'] = $this->Query->notif_pendaftar();
 		$where = array(
 			'id_jadwal' => $id
-			);
+		);
 		$data['jadwal_berobat'] =  $this->Query->get_data('jadwal_berobat_pasien', $where)->result();
 		$this->load->view('ubah_jadwal_berobat_pasien', $data);
 	}
@@ -1051,7 +1034,7 @@ class User_adm extends CI_Controller {
 		$tanggal = new DateTime(trim($tgl_berobat));
 		$where_tgl_sebelum = array(
 			'id_pasien' => $this->input->post('id_pasien')
-			);
+		);
 
 		$data['tgl_sebelum'] = $this->Query->get_order_by('tgl_berobat','jadwal_berobat_pasien', 'id_pasien = '.$id_pasien.' AND minggu_ke = '.$minggu_sebelum,'id_jadwal', 'DESC', '1');
 		if ($minggu_ke == 1) {
@@ -1075,13 +1058,13 @@ class User_adm extends CI_Controller {
 		// var_dump($tgl);exit(0);
 		$where = array(
 			'id_jadwal' => $id
-			);
+		);
 		$isi_data_jadwal_berobat = array(
 			'tgl_berobat' 	=>	$tgl_berobat,
 			'kestabilan_kondisi' 	=>	$this->input->post('kestabilan_kondisi'),
 			'status_berobat' 	=>	$status_berobat,
 			'alasan_terlambat' 	=>	$alasan_terlambat
-			);
+		);
 		// var_dump($id); exit(o);
 		$this->Query->update_data('jadwal_berobat_pasien', $where, $isi_data_jadwal_berobat);
 		redirect(base_url('user_adm/jadwal_berobat_pasien/'.$id_pasien));
@@ -1090,7 +1073,7 @@ class User_adm extends CI_Controller {
 		$id = $this->uri->segment(3);
 		$where = array(
 			'id_jadwal' => $id
-			);
+		);
 		$data['jadwal_berobat'] = $this->Query->get_order_by('id_pasien','jadwal_berobat_pasien', $where, 'id_jadwal', 'DESC', 1);
 		foreach ($data['jadwal_berobat'] as $jb) {
 			$id_pasien = $jb->id_pasien;
@@ -1100,11 +1083,11 @@ class User_adm extends CI_Controller {
 	}
 
 	public function aksi_upload(){
-		$config['upload_path']          = 'base_url(assets/images/)';
+		$config['upload_path']          = FCPATH.'assets/images/';
 		$config['allowed_types']        = 'gif|jpg|png';
-		$config['max_size']             = 100;
-		$config['max_width']            = 1024;
-		$config['max_height']           = 768;
+		//$config['max_size']             = 100;
+		//$config['max_width']            = 1024;
+		//$config['max_height']           = 768;
 
 		$this->load->library('upload', $config);
 
